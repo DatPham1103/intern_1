@@ -1,0 +1,7 @@
+.header{
+    justify-content: center;
+}
+
+.ant-menu-dark.ant-menu-horizontal >.ant-menu-item-selected{
+    background-color: #ffb0b0 !important;
+}
