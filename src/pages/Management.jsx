@@ -7,7 +7,7 @@ import {
     fetchData,
     updateProduct,
 } from "../redux/Slice/ProductSlice";
-import { Button, Table, Modal, Form, Input, InputNumber, Switch } from "antd";
+import { Button, Table, Modal, Form, Input, InputNumber, Switch, Skeleton, notification } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 const { Item } = Form;
@@ -20,19 +20,34 @@ function Management() {
     const [formMode, setFormMode] = useState("add");
     const [selectedProductId, setSelectedProductId] = useState(null);
 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         dispatch(fetchData())
             .unwrap()
-            .then(() => {})
+            .then(() => {
+                setLoading(false);
+            })
             .catch((error) => {
                 console.error("Error: ", error);
+                setLoading(false);
             });
     }, [dispatch]);
+
+    const openNotification = (type, message) => {
+        notification[type]({
+            message: message,
+            duration: 2,
+        });
+    };
 
     const handleDelete = (id) => {
         dispatch(deleteProduct(id))
             .then(() => {
-                window.location.reload();
+                openNotification('success', 'Product deleted successfully');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             })
             .catch((error) => {
                 console.error("Error: ", error);
@@ -42,9 +57,12 @@ function Management() {
     const handleAdd = (values) => {
         dispatch(createProduct(values))
             .then(() => {
-                window.location.reload();
-                form.resetFields();
-                setModalVisible(false);
+                openNotification('success', 'Product added successfully');
+                setTimeout(() => {
+                    window.location.reload();
+                    form.resetFields();
+                    setModalVisible(false);
+                }, 2000);
             })
             .catch((error) => {
                 console.error("Error: ", error);
@@ -54,9 +72,12 @@ function Management() {
     const handleUpdate = (values) => {
         dispatch(updateProduct(values))
             .then(() => {
-                window.location.reload();
-                form.resetFields();
-                setModalVisible(false);
+                openNotification('success', 'Product updated successfully');
+                setTimeout(() => {
+                    window.location.reload();
+                    form.resetFields();
+                    setModalVisible(false);
+                }, 2000);
             })
             .catch((error) => {
                 console.error("Error: ", error);
@@ -112,14 +133,26 @@ function Management() {
             title: "Price",
             dataIndex: "price",
             key: "price",
+            sorter: (a, b) => a.price - b.price,
         },
         {
             title: "Status",
             dataIndex: "status",
             key: "status",
+            filters:[
+                {
+                    text: "Available",
+                    value:true
+                },
+                {
+                    text: "Unvailable",
+                    value:false
+                }   
+            ],
             render: (status) => {
                 return status ? "Available" : "Unavailable";
             },
+            onFilter: (value, record) => record.status === value,
         },
         {
             title: "Action",
@@ -140,6 +173,7 @@ function Management() {
             ),
         },
     ];
+
 // search function
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -164,7 +198,11 @@ function Management() {
                 style={{ marginBottom: "10px", width: "300px" }}
             />
             </div>
-            <Table columns={columns} dataSource={filteredProductList} />
+            {loading ? ( 
+                <Skeleton active />
+            ) : (
+                <Table columns={columns} dataSource={filteredProductList} />
+            )}
 
             <Modal
                 title={formMode === "add" ? "Add Product" : "Update Product"}

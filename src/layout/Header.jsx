@@ -10,6 +10,7 @@ function Header() {
                 className="header"
                 theme="dark"
                 mode="horizontal"
+                style={{height:'50px'}}
             >
                 <Menu.Item key="home">
                     <Link to="/home">Home</Link>
