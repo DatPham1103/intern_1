@@ -26,8 +26,8 @@ export const fetchData = createAsyncThunk('data/fetchData', async () => {
 
   export const createProduct = createAsyncThunk('data/createProduct',async (value)=>{
     try{
-      let{name,price,status} = value;
-      const response = await axios .post(`https://6574830cb2fbb8f6509c4879.mockapi.io/api/product`,{name,price,status});
+      let{name,image,price,status} = value;
+      const response = await axios .post(`https://6574830cb2fbb8f6509c4879.mockapi.io/api/product`,{name,image,price,status});
       return response
     }
     catch(error){
@@ -37,8 +37,8 @@ export const fetchData = createAsyncThunk('data/fetchData', async () => {
 
   export const updateProduct = createAsyncThunk('data/updateProduct',async (value)=>{
     try{
-      let{id,name,price,status} = value;
-      const response = await axios .put(`https://6574830cb2fbb8f6509c4879.mockapi.io/api/product/${id}`,{name,price,status});
+      let{id,name,image,price,status} = value;
+      const response = await axios .put(`https://6574830cb2fbb8f6509c4879.mockapi.io/api/product/${id}`,{name,image,price,status});
       return response
     }
     catch(error){

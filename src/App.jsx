@@ -1,4 +1,4 @@
-import {Routes,Route } from 'react-router-dom'
+import {Routes,Route, Navigate } from 'react-router-dom'
 import './App.css'
 import Layout from './layout/webLayout'
 import Home from "../src/pages/Home"
@@ -12,6 +12,7 @@ function App() {
     <>
     <Layout>
     <Routes>
+    <Route path="/" element={<Navigate to="/home" />} />
       <Route path='/home' element={<Home/>}/>
       <Route path='/product' element={<Product/>}/>
       <Route path='/management' element={<Management/>}/>

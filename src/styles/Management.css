@@ -1,0 +1,15 @@
+.ant-table-tbody > tr:nth-child(even) {
+    background-color:  #F5F5F5;
+}
+
+.ant-table-tbody > tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.ant-table-tbody > tr:nth-child(odd):hover > td {
+    background-color: #ADD8E6 !important;
+}
+
+.ant-table-tbody > tr:nth-child(even):hover > td {
+    background-color: #FFB6C1 !important;
+}
